@@ -52,12 +52,7 @@ def model_response(user_query, chat_history, model_class):
         llm = model_ollama()
 
     system_prompt = "Você é um assistente prestativo e está respondendo perguntas gerais. Responda em português."
-    language = "português"
-
-    if model_class.startswith("hf"):
-        user_prompt = "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n{input}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-    else:
-        user_prompt = "{input}"
+    user_prompt = "{input}"
 
     prompt_template = ChatPromptTemplate.from_messages([
         ("system", system_prompt),
@@ -70,23 +65,20 @@ def model_response(user_query, chat_history, model_class):
     return chain.stream({
         "chat_history": chat_history,
         "input": user_query,
-        "language": language
     })
 
 # Histórico de conversa
 if "chat_history" not in st.session_state:
-    st.session_state.chat_history = [
-        AIMessage(content="Olá! Como posso ajudá-lo hoje?"),
-    ]
+    st.session_state.chat_history = []
 
-# Exibir mensagens na interface
-for message in st.session_state.chat_history:
-    if isinstance(message, AIMessage):
-        with st.chat_message("AI"):
-            st.write(message.content)
-    elif isinstance(message, HumanMessage):
-        with st.chat_message("Human"):
-            st.write(message.content)
+# Menu de perguntas passadas
+if st.session_state.chat_history:
+    st.sidebar.subheader("Perguntas Passadas")
+    for i, msg in enumerate(st.session_state.chat_history):
+        if isinstance(msg, HumanMessage):
+            if st.sidebar.button(f"{msg.content[:30]}..."):
+                st.session_state.chat_history = st.session_state.chat_history[i:]
+                break
 
 # Entrada do usuário
 user_query = st.text_area("Digite sua mensagem aqui...", height=100)
