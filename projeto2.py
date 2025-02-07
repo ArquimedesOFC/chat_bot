@@ -16,7 +16,7 @@ st.title("🦾 Seu assistente virtual")
 st.sidebar.header("Escolha seu modelo de IA")
 
 # Opções de modelo
-model_class = st.sidebar.selectbox("Selecione o modelo", ["hf_hub", "openai", "ollama"])
+model_class = st.sidebar.selectbox("Selecione o modelo\nem implementação", ["hf_hub", "openai", "ollama"])
 
 def model_hf_hub(model="meta-llama/Meta-Llama-3-8B-Instruct", temperature=0.1):
     llm = HuggingFaceHub(
