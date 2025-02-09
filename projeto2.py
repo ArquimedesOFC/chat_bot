@@ -27,7 +27,7 @@ cursor.execute("""
 conn.commit()
 
 st.set_page_config(page_title="Assistente Virtual 🤖", page_icon="🤖")
-st.title("assistente virtual")
+st.title("Assistente Virtual")
 st.sidebar.header("Escolha seu modelo de IA")
 
 model_class = st.sidebar.selectbox("Selecione o modelo", ["hf_hub", "openai", "ollama"])
@@ -108,8 +108,3 @@ if "show_history" in st.session_state and st.session_state.show_history:
     if st.sidebar.button("Sair do histórico"):
         st.session_state.show_history = False
         st.rerun()
-
-if st.sidebar.button("Excluir histórico"):
-    cursor.execute("DELETE FROM messages")
-    conn.commit()
-    st.sidebar.write("Histórico apagado com sucesso!")
