@@ -1,5 +1,5 @@
 
-# 🤖 ChatBot com Python
+# 🤖 ChatBot com Python a
 
 Este projeto é um chatbot simples desenvolvido em Python, utilizando a biblioteca `openai` para interações com modelos de linguagem.
 
